@@ -16,7 +16,6 @@
         function processResults(data){
             $.each(data.responseData.results, function (i, data) {
                 $('#gImages').append('<a href="'+data.originalContextUrl+'" target="_blank"><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:'+data.imageId+'" alt="'+data.titleNoFormatting+'" title="'+data.titleNoFormatting+'" /><a>');
-                console.log('ouais')    
             });
         }
     </script>

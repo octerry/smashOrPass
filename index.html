@@ -4,28 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smash or Pass</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-        var q = 'vervet monkey';
-        results=5;
-        if(location.search) q=unescape(location.search);
-            $.getScript('https://ajax.googleapis.com/ajax/services/search/images?callback=processResults&rsz='+results+'&v=1.0&q='+escape(q));
-        });
-
-        function processResults(data){
-            $.each(data.responseData.results, function (i, data) {
-                $('#gImages').append('<a href="'+data.originalContextUrl+'" target="_blank"><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:'+data.imageId+'" alt="'+data.titleNoFormatting+'" title="'+data.titleNoFormatting+'" /><a>');
-            });
-        }
-    </script>
+    <script defer src="script.js"></script>
 </head>
-
 <body>
-
-<h1>Image Results</h1>
-
-<div id="gImages"></div>
-
+    
 </body>
 </html>

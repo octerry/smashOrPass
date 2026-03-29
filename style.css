@@ -13,9 +13,10 @@ body {
     width: 100%;
     overflow: hidden;
     background-color: #0b0c1d;
-    transition: .3s;
     background: radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#242649 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #242649 2px, #0b0c1d 2px) -1px 0;
     background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px;
+    -webkit-transition: background-image 0.3s ease-in-out, background-color .3s ease-in-out;
+    transition: background-image 0.3s ease-in-out, background-color .3s ease-in-out;
 }
 
 .card-container {
@@ -103,17 +104,18 @@ body {
 }
 
 #popup {
-    display: none;
-    /* display: flex; */
+    /* display: none; */
+    display: flex;
     justify-content: space-around;
     position: absolute;
+    padding: 10px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
     background-color: #202136;
-    min-width: 400px;
-    min-height: 500px;
+    width: 80vw;
+    height: 80vh;
     border-radius: 10px;
     box-shadow: 0 0 20px #000000FF;
 
@@ -147,4 +149,30 @@ body {
     overflow-y: auto;
 
     color: #fff;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: calc(.5vw + 1vh);
+}
+
+@keyframes appear {
+    0% {
+        transform: scale(0) translate(-50vh, -50vw);
+    }
+    80% {
+        transform: scale(1.1) translate(-45%, -45%);
+    }
+    100% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+}
+
+@keyframes disappear {
+    0% {
+        transform: scale(1) translate(-50%, -50%);
+    }
+    20% {
+        transform: scale(1.1) translate(-45%, -45%);
+    }
+    100% {
+        transform: scale(0) translate(-50vh, -100vw);
+    }
 }

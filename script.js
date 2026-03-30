@@ -132,7 +132,8 @@ document.addEventListener('mousemove', e=>{
 
 document.addEventListener('touchmove', e=>{
     if (isDragging) {
-        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        const { touches, changedTouches } = e.originalEvent ?? e;
+        const touch = touches[0] ?? changedTouches[0];
         x = touch.pageX;
         firstCard.style.left = `${x - startX}px`;
         firstCard.style.rotate = `${(x - startX) / 10}deg`
@@ -170,12 +171,9 @@ container.addEventListener('mousedown', e=>{
 
 container.addEventListener('touchstart', e=>{
     isDragging = true;
-    if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-        x = touch.pageX;
-    } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
-        x = e.clientX;
-    }
+    const { touches, changedTouches } = e.originalEvent ?? e;
+    const touch = touches[0] ?? changedTouches[0];
+    x = touch.pageX;
     startX = x;
     firstCard.style.transition = "rotate .1s";
     document.body.style.cursor = "pointer";
@@ -221,7 +219,8 @@ document.addEventListener('mouseup', e=>{
 
 document.addEventListener('touchend', e=>{
     isDragging = false;
-    var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    const { touches, changedTouches } = e.originalEvent ?? e;
+    const touch = touches[0] ?? changedTouches[0];
     x = touch.pageX;
     if(x - startX > window.innerWidth/6) {
         smashTab.push(thisName);

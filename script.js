@@ -101,7 +101,7 @@ function url(id) {
     return "Source/" + fileName + ".webp"
 }
 
-document.addEventListener('mousemove', event=>{
+document.addEventListener('pointermove', event=>{
     if (isDragging) {
         firstCard.style.left = `${event.clientX - startX}px`;
         firstCard.style.rotate = `${(event.clientX - startX) / 10}deg`
@@ -129,86 +129,14 @@ document.addEventListener('mousemove', event=>{
     }
 })
 
-document.addEventListener('touchmove', event=>{
-    if (isDragging) {
-        firstCard.style.left = `${event.clientX - startX}px`;
-        firstCard.style.rotate = `${(event.clientX - startX) / 10}deg`
-        firstCard.style.transform = `none`;
-            
-        smash.style.transform = "translateY(-50%)"
-        pass.style.transform = "translateY(-50%)"
-        body.style.background = "radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#242649 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #242649 2px, #0b0c1d 2px) -1px 0"
-        body.style.backgroundSize = "50px 50px, 50px 50px, 25px 25px, 25px 25px"
-        if(event.clientX - startX > window.innerWidth/6) {
-            body.style.backgroundColor = "#3a213a";
-            body.style.backgroundImage = "url(Source/heart.svg)"
-            body.style.backgroundSize = "60px"
-            smash.style.transform = "scale(3) translateY(10%)"
-            smash.style.zIndex = "1";
-        } else if(event.clientX - startX < -window.innerWidth/6) {
-            body.style.backgroundColor = "#441313";
-            body.style.backgroundImage = "url(Source/cross.svg)"
-            body.style.backgroundSize = "60px"
-            pass.style.transform = "scale(3) translateY(10%)"
-            pass.style.zIndex = "1";
-        } else {
-            body.style.backgroundColor = "#0b0c1d";
-        }
-    }
-})
-
-container.addEventListener('mousedown', event=>{
+container.addEventListener('pointerdown', event=>{
     isDragging = true;
     startX = event.clientX;
     firstCard.style.transition = "rotate .1s";
     document.body.style.cursor = "pointer";
 })
 
-container.addEventListener('touchstart', event=>{
-    isDragging = true;
-    startX = event.clientX;
-    firstCard.style.transition = "rotate .1s";
-    document.body.style.cursor = "pointer";
-})
-
-document.addEventListener('mouseup', event=>{
-    isDragging = false;
-    if(event.clientX - startX > window.innerWidth/6) {
-        smashTab.push(thisName);
-        tab1.shift();
-        tab2.shift();
-        firstCard.style.transition = ".2s";
-        firstCard.style.left = `100vw`;
-        smashAdd();
-        actualizeText()
-        setTimeout(() => {
-            show();
-        }, 300);
-    } else if(event.clientX - startX < -window.innerWidth/6) {
-        passTab.push(thisName);
-        tab1.shift();
-        tab2.shift();
-        firstCard.style.transition = ".2s";
-        firstCard.style.left = `-100vw`;
-        passAdd();
-        actualizeText()
-        setTimeout(() => {
-            show();
-        }, 300);
-    } else {
-        firstCard.style.transition = ".2s";
-        firstCard.style.left = `50%`;
-        firstCard.style.rotate = `0deg`
-        firstCard.style.transform = "translateX(-50%)"
-    }
-    body.style.backgroundColor = "#0b0c1d";
-    smash.style.transform = "translateY(-50%)"
-    pass.style.transform = "translateY(-50%)"
-    body.style.background = "radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#242649 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #242649 2px, #0b0c1d 2px) -1px 0"
-    body.style.backgroundSize = "50px 50px, 50px 50px, 25px 25px, 25px 25px"
-})
-
-document.addEventListener('touchend', event=>{
+document.addEventListener('pointerup', event=>{
     isDragging = false;
     if(event.clientX - startX > window.innerWidth/6) {
         smashTab.push(thisName);

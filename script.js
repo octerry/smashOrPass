@@ -101,23 +101,24 @@ function url(id) {
     return "Source/" + fileName + ".webp"
 }
 
-document.addEventListener('pointermove', event=>{
+document.addEventListener('mousemove', e=>{
     if (isDragging) {
-        firstCard.style.left = `${event.clientX - startX}px`;
-        firstCard.style.rotate = `${(event.clientX - startX) / 10}deg`
+        x = e.clientX;
+        firstCard.style.left = `${x - startX}px`;
+        firstCard.style.rotate = `${(x - startX) / 10}deg`
         firstCard.style.transform = `none`;
             
         smash.style.transform = "translateY(-50%)"
         pass.style.transform = "translateY(-50%)"
         body.style.background = "radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#242649 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #242649 2px, #0b0c1d 2px) -1px 0"
         body.style.backgroundSize = "50px 50px, 50px 50px, 25px 25px, 25px 25px"
-        if(event.clientX - startX > window.innerWidth/6) {
+        if(x - startX > window.innerWidth/6) {
             body.style.backgroundColor = "#3a213a";
             body.style.backgroundImage = "url(Source/heart.svg)"
             body.style.backgroundSize = "60px"
             smash.style.transform = "scale(3) translateY(10%)"
             smash.style.zIndex = "1";
-        } else if(event.clientX - startX < -window.innerWidth/6) {
+        } else if(x - startX < -window.innerWidth/6) {
             body.style.backgroundColor = "#441313";
             body.style.backgroundImage = "url(Source/cross.svg)"
             body.style.backgroundSize = "60px"
@@ -129,16 +130,61 @@ document.addEventListener('pointermove', event=>{
     }
 })
 
-container.addEventListener('pointerdown', event=>{
+document.addEventListener('touchmove', e=>{
+    if (isDragging) {
+        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        x = touch.pageX;
+        firstCard.style.left = `${x - startX}px`;
+        firstCard.style.rotate = `${(x - startX) / 10}deg`
+        firstCard.style.transform = `none`;
+            
+        smash.style.transform = "translateY(-50%)"
+        pass.style.transform = "translateY(-50%)"
+        body.style.background = "radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#242649 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #242649 2px, #0b0c1d 2px) -1px 0"
+        body.style.backgroundSize = "50px 50px, 50px 50px, 25px 25px, 25px 25px"
+        if(x - startX > window.innerWidth/6) {
+            body.style.backgroundColor = "#3a213a";
+            body.style.backgroundImage = "url(Source/heart.svg)"
+            body.style.backgroundSize = "60px"
+            smash.style.transform = "scale(3) translateY(10%)"
+            smash.style.zIndex = "1";
+        } else if(x - startX < -window.innerWidth/6) {
+            body.style.backgroundColor = "#441313";
+            body.style.backgroundImage = "url(Source/cross.svg)"
+            body.style.backgroundSize = "60px"
+            pass.style.transform = "scale(3) translateY(10%)"
+            pass.style.zIndex = "1";
+        } else {
+            body.style.backgroundColor = "#0b0c1d";
+        }
+    }
+})
+
+container.addEventListener('mousedown', e=>{
     isDragging = true;
-    startX = event.clientX;
+    x = e.clientX;
+    startX = x;
     firstCard.style.transition = "rotate .1s";
     document.body.style.cursor = "pointer";
 })
 
-document.addEventListener('pointerup', event=>{
+container.addEventListener('touchstart', e=>{
+    isDragging = true;
+    if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
+        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        x = touch.pageX;
+    } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
+        x = e.clientX;
+    }
+    startX = x;
+    firstCard.style.transition = "rotate .1s";
+    document.body.style.cursor = "pointer";
+})
+
+document.addEventListener('mouseup', e=>{
     isDragging = false;
-    if(event.clientX - startX > window.innerWidth/6) {
+    x = e.clientX;
+    if(x - startX > window.innerWidth/6) {
         smashTab.push(thisName);
         tab1.shift();
         tab2.shift();
@@ -149,7 +195,7 @@ document.addEventListener('pointerup', event=>{
         setTimeout(() => {
             show();
         }, 300);
-    } else if(event.clientX - startX < -window.innerWidth/6) {
+    } else if(x - startX < -window.innerWidth/6) {
         passTab.push(thisName);
         tab1.shift();
         tab2.shift();
@@ -173,12 +219,51 @@ document.addEventListener('pointerup', event=>{
     body.style.backgroundSize = "50px 50px, 50px 50px, 25px 25px, 25px 25px"
 })
 
-listButton.addEventListener('click', event=>{
-    popup.style.animation = "appear .5s forwards"
+document.addEventListener('touchend', e=>{
+    isDragging = false;
+    var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    x = touch.pageX;
+    if(x - startX > window.innerWidth/6) {
+        smashTab.push(thisName);
+        tab1.shift();
+        tab2.shift();
+        firstCard.style.transition = ".2s";
+        firstCard.style.left = `100vw`;
+        smashAdd();
+        actualizeText()
+        setTimeout(() => {
+            show();
+        }, 300);
+    } else if(x - startX < -window.innerWidth/6) {
+        passTab.push(thisName);
+        tab1.shift();
+        tab2.shift();
+        firstCard.style.transition = ".2s";
+        firstCard.style.left = `-100vw`;
+        passAdd();
+        actualizeText()
+        setTimeout(() => {
+            show();
+        }, 300);
+    } else {
+        firstCard.style.transition = ".2s";
+        firstCard.style.left = `50%`;
+        firstCard.style.rotate = `0deg`
+        firstCard.style.transform = "translateX(-50%)"
+    }
+    body.style.backgroundColor = "#0b0c1d";
+    smash.style.transform = "translateY(-50%)"
+    pass.style.transform = "translateY(-50%)"
+    body.style.background = "radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #0b0c1d 20%, #0b0c1d 80%, transparent 80%, transparent) 25px 25px, linear-gradient(#242649 2px, transparent 2px) 0 -1px, linear-gradient(90deg, #242649 2px, #0b0c1d 2px) -1px 0"
+    body.style.backgroundSize = "50px 50px, 50px 50px, 25px 25px, 25px 25px"
 })
 
-window.addEventListener('click', event=>{
-    if(!event.target.matches('#popup') && !event.target.matches('#list')) {
+listButton.addEventListener('click', e=>{
+    popup.style.animation = "appear .5s forward s"
+})
+
+window.addEventListener('click', e=>{
+    if(!e.target.matches('#popup') && !e.target.matches('#list')) {
         popup.style.animation = "disappear .5s forwards"
     }
 })
